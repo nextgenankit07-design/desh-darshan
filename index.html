@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Desh Darshan 🇮🇳</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="brand" onclick="scrollToTop()">
+        <div class="brand-icon">🇮🇳</div>
+        <div>
+            <b>Desh Darshan</b>
+            <small>Explore India</small>
+        </div>
+    </div>
+
+    <div class="nav-actions">
+        <button onclick="openSearch()" aria-label="Search">⌕</button>
+        <button onclick="toggleTheme()" id="themeBtn">☾</button>
+        <button onclick="showFavorites()">♡</button>
+    </div>
+</header>
+
+<main>
+
+<section class="hero">
+    <div class="hero-badge">🇮🇳 DISCOVER INDIA</div>
+
+    <h1>Incredible<br><span>India.</span></h1>
+
+    <p>
+        One country. Thousands of stories.<br>
+        Explore India's states, culture, food, heritage and beauty.
+    </p>
+
+    <div class="hero-buttons">
+        <button class="primary-btn" onclick="scrollToMap()">
+            Explore India →
+        </button>
+
+        <button class="secondary-btn" onclick="randomState()">
+            🎲 Surprise Me
+        </button>
+    </div>
+
+    <div class="stats">
+        <div><strong>28</strong><span>States</span></div>
+        <div><strong>8</strong><span>UTs</span></div>
+        <div><strong>∞</strong><span>Stories</span></div>
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="section-heading">
+        <span>EXPLORE</span>
+        <h2>India in every flavour.</h2>
+    </div>
+
+    <div class="quick-grid">
+
+        <div class="quick-card" onclick="openCategory('food')">
+            <div class="quick-icon">🍛</div>
+            <h3>Food</h3>
+            <p>Taste of India</p>
+        </div>
+
+        <div class="quick-card" onclick="openCategory('festival')">
+            <div class="quick-icon">🎉</div>
+            <h3>Festivals</h3>
+            <p>Celebrate India</p>
+        </div>
+
+        <div class="quick-card" onclick="openCategory('heritage')">
+            <div class="quick-icon">🏛️</div>
+            <h3>Heritage</h3>
+            <p>Stories of history</p>
+        </div>
+
+        <div class="quick-card" onclick="openCategory('nature')">
+            <div class="quick-icon">🏔️</div>
+            <h3>Nature</h3>
+            <p>Wild & beautiful</p>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section map-section" id="mapSection">
+
+    <div class="section-heading">
+        <span>INTERACTIVE MAP</span>
+        <h2>Tap a state. Start a story.</h2>
+        <p>Every state has something unique waiting for you.</p>
+    </div>
+
+    <div class="map-card">
+
+        <div class="map-topbar">
+            <div>
+                <b>🇮🇳 India</b>
+                <small id="mapStatus">Interactive Map</small>
+            </div>
+
+            <button onclick="resetMap()">Reset</button>
+        </div>
+
+        <div id="indiaMap"></div>
+
+    </div>
+</section>
+
+
+<section class="section" id="knowledgeSection">
+
+    <div class="section-heading">
+        <span>STATE DISCOVERY</span>
+        <h2 id="selectedTitle">Choose a state</h2>
+        <p id="selectedSubtitle">
+            Tap any state on the map or directory.
+        </p>
+    </div>
+
+    <div id="stateKnowledge" class="knowledge-card empty-card">
+
+        <div class="empty-state">
+            <div>🗺️</div>
+            <h3>Select a state</h3>
+            <p>Its story will appear here.</p>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+
+    <div class="section-heading">
+        <span>INDIA DIRECTORY</span>
+        <h2>Choose your destination.</h2>
+    </div>
+
+    <div class="filter-row">
+        <button class="filter active" onclick="filterStates('all',this)">All</button>
+        <button class="filter" onclick="filterStates('north',this)">North</button>
+        <button class="filter" onclick="filterStates('south',this)">South</button>
+        <button class="filter" onclick="filterStates('east',this)">East</button>
+        <button class="filter" onclick="filterStates('west',this)">West</button>
+        <button class="filter" onclick="filterStates('central',this)">Central</button>
+        <button class="filter" onclick="filterStates('northeast',this)">North-East</button>
+        <button class="filter" onclick="filterStates('ut',this)">UTs</button>
+    </div>
+
+    <div id="stateDirectory" class="state-grid"></div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="section-heading">
+        <span>YOUR COLLECTION</span>
+        <h2>Favourite places.</h2>
+        <p>Save states you want to explore again.</p>
+    </div>
+
+    <div id="favoritesGrid" class="state-grid">
+        <div class="no-favorites">
+            ❤️ Your favourite states will appear here.
+        </div>
+    </div>
+
+</section>
+
+
+<section class="feature-section">
+
+    <div class="feature-image"></div>
+
+    <div class="feature-content">
+        <span>FEATURED JOURNEY</span>
+
+        <h2>Royal Rajasthan</h2>
+
+        <p>
+            Forts, palaces, deserts, colourful traditions and
+            centuries of history — experience the royal side of India.
+        </p>
+
+        <div class="feature-tags">
+            <span>🏰 Heritage</span>
+            <span>🐪 Desert</span>
+            <span>🍛 Cuisine</span>
+        </div>
+
+        <button onclick="openState('Rajasthan')">
+            Explore Rajasthan →
+        </button>
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="section-heading">
+        <span>EXPERIENCES</span>
+        <h2>Find your India.</h2>
+    </div>
+
+    <div class="experience-grid">
+
+        <div class="experience-card mountain"
+             onclick="openCategory('mountains')">
+            <div>
+                <small>ADVENTURE</small>
+                <h3>Himalayan<br>Escapes</h3>
+            </div>
+        </div>
+
+        <div class="experience-card culture"
+             onclick="openCategory('culture')">
+            <div>
+                <small>CULTURE</small>
+                <h3>Culture<br>& Arts</h3>
+            </div>
+        </div>
+
+        <div class="experience-card coast"
+             onclick="openCategory('coast')">
+            <div>
+                <small>GETAWAY</small>
+                <h3>Coastal<br>India</h3>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section facts-section">
+
+    <div class="section-heading">
+        <span>INDIA FACTS</span>
+        <h2>Did you know?</h2>
+    </div>
+
+    <div class="fact-card">
+
+        <div class="fact-number" id="factNumber">01</div>
+
+        <div>
+            <h3 id="factTitle">Amazing India</h3>
+            <p id="factText">
+                India is home to an incredible variety of languages,
+                landscapes, traditions and cultures.
+            </p>
+        </div>
+
+        <button onclick="nextFact()">→</button>
+
+    </div>
+
+</section>
+
+
+<section class="quiz-section">
+
+    <div class="quiz-content">
+        <span>TEST YOUR KNOWLEDGE</span>
+        <h2>How well do you know India?</h2>
+        <p>Take a quick quiz and discover your India score.</p>
+
+        <button onclick="startQuiz()">Start Quiz →</button>
+    </div>
+
+    <div class="quiz-icon">🧠🇮🇳</div>
+
+</section>
+
+
+<section class="quote-section">
+    <div class="quote-mark">“</div>
+
+    <p>
+        Unity in diversity is not just India's identity —
+        it is India's strength.
+    </p>
+
+    <span>— Desh Darshan</span>
+</section>
+
+</main>
+
+
+<footer>
+    <div class="footer-logo">🇮🇳 Desh Darshan</div>
+
+    <p>
+        Explore • Learn • Experience India
+    </p>
+
+    <div class="creator">
+        Made with ❤️ by <b>Ankit Rajput 🧑🏻‍💻</b>
+    </div>
+
+    <small>© 2026 Desh Darshan</small>
+</footer>
+
+
+<!-- SEARCH -->
+
+<div id="searchModal" class="modal">
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <h2>Search India</h2>
+            <button onclick="closeModal('searchModal')">×</button>
+        </div>
+
+        <input
+            id="searchInput"
+            class="search-input"
+            placeholder="Search state, food, capital..."
+            oninput="performSearch()"
+        >
+
+        <div id="searchResults"></div>
+
+    </div>
+</div>
+
+
+<!-- CATEGORY -->
+
+<div id="categoryModal" class="modal">
+    <div class="modal-box">
+
+        <div class="modal-header">
+            <div>
+                <small id="categoryLabel"></small>
+                <h2 id="categoryTitle"></h2>
+            </div>
+
+            <button onclick="closeModal('categoryModal')">×</button>
+        </div>
+
+        <div id="categoryResults" class="category-results"></div>
+
+    </div>
+</div>
+
+
+<!-- QUIZ -->
+
+<div id="quizModal" class="modal">
+    <div class="modal-box quiz-modal">
+
+        <div class="modal-header">
+            <div>
+                <small>INDIA QUIZ</small>
+                <h2 id="quizProgress">Question 1/10</h2>
+            </div>
+
+            <button onclick="closeModal('quizModal')">×</button>
+        </div>
+
+        <div class="quiz-question" id="quizQuestion"></div>
+
+        <div id="quizOptions"></div>
+
+        <div class="quiz-score" id="quizScore"></div>
+
+    </div>
+</div>
+
+
+<div id="toast"></div>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
